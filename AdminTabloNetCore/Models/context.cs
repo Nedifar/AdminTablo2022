@@ -32,6 +32,12 @@ namespace AdminTabloNetCore.Models
         public DbSet<SpecialDayWeekName> SpecialDayWeekNames { get; set; }
         public DbSet<Para> Paras { get; set; }
         public DbSet<TypeInterval> TypeIntervals { get; set; }
+
+        public DbSet<AdditionalLessonsModels.DayWeek> DayWeeks { get; set; }
+        public DbSet<AdditionalLessonsModels.SheduleAdditionalLesson> SheduleAdditionalLessons { get; set; }
+        public DbSet<AdditionalLessonsModels.Lesson> Lessons { get; set; }
+        public DbSet<AdditionalLessonsModels.Time> Times { get; set; }
+
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             modelBuilder.UseIdentityColumns();

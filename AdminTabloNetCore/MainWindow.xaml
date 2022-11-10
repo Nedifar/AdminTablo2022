@@ -188,6 +188,11 @@
                     <Button Content="Сохранить" Click="clSaveDayPartHeaders" VerticalAlignment="Bottom" HorizontalAlignment="Center" Margin="0 10"/>
                 </Grid>
             </TabItem>
+            <TabItem Header="ДОПы">
+                <Grid x:Name="gridAdditionalLessons">
+                    
+                </Grid>
+            </TabItem>
         </dragablz:TabablzControl>
     </Grid>
 </Window>

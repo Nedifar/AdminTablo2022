@@ -30,9 +30,13 @@ namespace AdminTabloNetCore
     public partial class MainWindow : Window
     {
         Models.MonthYear abs;
+
         Models.TimeShedule selectedShedule = new Models.TimeShedule();
+
         public ObservableCollection<Models.DayPartHeader> DayPartHeaders { get; set; }
+
         public ObservableCollection<Models.Para> typesInterval { get; set; } = new ObservableCollection<Models.Para>();
+
         public MainWindow()
         {
             InitializeComponent();
@@ -56,6 +60,8 @@ namespace AdminTabloNetCore
             catch { MessageBox.Show("Проверьте подлкючение."); this.Close(); }
             cbShedule.ItemsSource = new string[] { "Основное", "ЧКР", "Особый" };
             dgAcc.ItemsSource = Models.context.GetContext().Announcements.OrderByDescending(p => p.Priority).ThenByDescending(p => p.idAnnouncement).ToList();
+
+            gridAdditionalLessons.Children.Add(new AdditionalLessonsPage());
         }
 
         private void dpPicker_SelectedDateChanged(object sender, SelectionChangedEventArgs e)

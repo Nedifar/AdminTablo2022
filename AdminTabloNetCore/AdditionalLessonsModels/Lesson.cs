@@ -1,0 +1,30 @@
+﻿using System;
+using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+
+namespace AdminTabloNetCore.AdditionalLessonsModels
+{
+    public class Lesson
+    {
+        [Key]
+        public int idLesson { get; set; }
+
+        public string groupName { get; set; }
+
+        public string teacherName { get; set; }
+
+        [ForeignKey("DayWeek")]
+        public int idDayWeek { get; set; }
+
+        public virtual DayWeek DayWeek { get; set; }
+
+        [ForeignKey("Time")]
+        public int idTime { get; set; }
+
+        public virtual Time Time { get; set; }
+    }
+}
