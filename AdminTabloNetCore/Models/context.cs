@@ -1,0 +1,40 @@
+﻿using Microsoft.EntityFrameworkCore;
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+
+namespace AdminTabloNetCore.Models
+{
+    public class context : DbContext
+    {
+        private static context _context;
+        public static context GetContext()
+        {
+            _context = _context ?? new context();
+            return _context;
+        }
+        protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
+        {
+            string con = "Host=192.168.147.69; port=5432; Database=InformationTabloBase; username=postgres; password=nw6Gs79d";
+            //string con = "Host=localhost; port=5432; Database=InformationTabloBase; username=postgres; password=gaz_gaz_Ilyas12";
+            optionsBuilder.UseNpgsql(con).UseLazyLoadingProxies();
+        }
+
+        public DbSet<WeekName> WeekNames { get; set; }
+        public DbSet<TimeShedule> TimeShedules { get; set; }
+        public DbSet<SupervisorShedule> SupervisorShedules { get; set; }
+        public DbSet<Announcement> Announcements { get; set; }
+        public DbSet<DatesSupervisior> DatesSupervisiors { get; set; }
+        public DbSet<MonthYear> MonthYear { get; set; }
+        public DbSet<DayPartHeader> DayPartHeaders { get; set; }
+        public DbSet<SpecialDayWeekName> SpecialDayWeekNames { get; set; }
+        public DbSet<Para> Paras { get; set; }
+        public DbSet<TypeInterval> TypeIntervals { get; set; }
+        protected override void OnModelCreating(ModelBuilder modelBuilder)
+        {
+            modelBuilder.UseIdentityColumns();
+        }
+    }
+}

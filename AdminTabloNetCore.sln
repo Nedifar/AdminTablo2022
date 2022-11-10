@@ -1,0 +1,25 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 16
+VisualStudioVersion = 16.0.32407.337
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AdminTabloNetCore", "AdminTabloNetCore\AdminTabloNetCore.csproj", "{C5E80626-40FB-4815-BEAC-1DA6214F5483}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{C5E80626-40FB-4815-BEAC-1DA6214F5483}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{C5E80626-40FB-4815-BEAC-1DA6214F5483}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{C5E80626-40FB-4815-BEAC-1DA6214F5483}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{C5E80626-40FB-4815-BEAC-1DA6214F5483}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {7790A4F7-B6AA-4852-BA77-AEC3D16D6286}
+	EndGlobalSection
+EndGlobal
