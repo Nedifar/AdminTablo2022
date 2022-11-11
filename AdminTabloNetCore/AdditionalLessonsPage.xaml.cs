@@ -29,5 +29,50 @@ namespace AdminTabloNetCore
 
             lvSheduleAdditionalLessons.ItemsSource = SheduleAdditionalLessons;
         }
+
+        private void clEditDirection(object sender, RoutedEventArgs e)
+        {
+
+        }
+
+        private void clSettingsDirection(object sender, RoutedEventArgs e)
+        {
+
+        }
+
+        private void clDeleteDirection(object sender, RoutedEventArgs e)
+        {
+
+        }
+
+        private void clEditTime(object sender, RoutedEventArgs e)
+        {
+
+        }
+
+        private void clDeleteTime(object sender, RoutedEventArgs e)
+        {
+
+        }
+
+        private void clAddLesson(object sender, RoutedEventArgs e)
+        {
+
+        }
+
+        private void clEditLesson(object sender, RoutedEventArgs e)
+        {
+
+        }
+
+        private void clDeleteLesson(object sender, RoutedEventArgs e)
+        {
+
+        }
+
+        private void clAddDirection(object sender, RoutedEventArgs e)
+        {
+
+        }
     }
 }

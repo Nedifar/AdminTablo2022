@@ -35,7 +35,7 @@ namespace AdminTabloNetCore.AdditionalLessonsModels
         {
             get
             {
-                return beginTime.ToString("hh.mm");
+                return beginTime.ToString("HH.mm");
             }
         }
     }

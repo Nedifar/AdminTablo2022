@@ -26,5 +26,22 @@ namespace AdminTabloNetCore.AdditionalLessonsModels
         public int idTime { get; set; }
 
         public virtual Time Time { get; set; }
+
+        public string getGroupTeacherCell
+        {
+            get
+            {
+                string resultString = "";
+                if(groupName != null)
+                {
+                    resultString += groupName;
+                }
+                if(teacherName != null)
+                {
+                    resultString += "\n" + teacherName;
+                }
+                return resultString;
+            }
+        }
     }
 }

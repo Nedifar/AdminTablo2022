@@ -6,7 +6,8 @@
              xmlns:local="clr-namespace:AdminTabloNetCore"
              xmlns:mat="http://materialdesigninxaml.net/winfx/xaml/themes"
              mc:Ignorable="d" 
-             d:DesignHeight="450" d:DesignWidth="800">
+             
+    xmlns:wpf="clr-namespace:MaterialDesignThemes.Wpf;assembly=MaterialDesignThemes.Wpf">
 
     <UserControl.Resources>
         <Style TargetType="Run">
@@ -15,23 +16,66 @@
         <Style TargetType="TextBlock">
             <Setter Property="FontFamily" Value="{StaticResource MaterialDesignFont}"/>
         </Style>
-    </UserControl.Resources>
+        <Style x:Key="MaterialDesignContextMenu"
+         TargetType="{x:Type ContextMenu}"
+         BasedOn="{StaticResource MaterialDesignMenu}">
+            <Setter Property="Background" Value="{DynamicResource MaterialDesignPaper}" />
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="{x:Type MenuBase}">
+                        <AdornerDecorator CacheMode="{Binding RelativeSource={RelativeSource Self}, Path=(wpf:ShadowAssist.CacheMode)}">
+                            <Grid>
+                                <Border Margin="3"
+                      Background="White"
+                      CornerRadius="2"
+                      Effect="{DynamicResource MaterialDesignShadowDepth1}" />
 
+                                <Border Margin="3" Background="White">
+                                    <ScrollViewer x:Name="SubMenuScrollViewer" Style="{DynamicResource {ComponentResourceKey ResourceId=MenuScrollViewer, TypeInTargetAssembly={x:Type FrameworkElement}}}">
+                                        <Grid Margin="0,16" RenderOptions.ClearTypeHint="Enabled">
+                                            <ItemsPresenter x:Name="ItemsPresenter"
+                                    Grid.IsSharedSizeScope="True"
+                                    KeyboardNavigation.DirectionalNavigation="Cycle"
+                                    KeyboardNavigation.TabNavigation="Cycle"
+                                    SnapsToDevicePixels="{TemplateBinding SnapsToDevicePixels}" />
+                                        </Grid>
+                                    </ScrollViewer>
+                                </Border>
+                            </Grid>
+                        </AdornerDecorator>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+    </UserControl.Resources>
     <Grid>
-        <ListView x:Name="lvSheduleAdditionalLessons">
+        <ListView Margin="0 0 0 5" Height="{Binding RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type Window}}, Path=ActualHeight}" ItemContainerStyle="{StaticResource ListViewItemContainerStyle2}" x:Name="lvSheduleAdditionalLessons" >
             <ListView.ItemTemplate>
                 <DataTemplate>
-                    <StackPanel Width="{Binding RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type Window}}, Path=Width}">
-                        <TextBlock TextAlignment="Center" HorizontalAlignment="Center" FontSize="22">
+                    <StackPanel>
+                        <Grid>
+                            <TextBlock TextAlignment="Center" HorizontalAlignment="Center" FontSize="22">
                             <Run Text="Расписание направления"/>
                             <LineBreak/>
                             <Run FontWeight="Bold" Text="{Binding name, StringFormat= «{0}» }"/>
-                        </TextBlock>
+                            </TextBlock>
+                            <StackPanel HorizontalAlignment="Right" Orientation="Horizontal">
+                                <Button Click="clEditDirection" Background="{x:Null}" Foreground="Green" Width="35" Padding="-5" BorderBrush="{x:Null}">
+                                    <mat:PackIcon Kind="Edit" Width="25" Height="25"/>
+                                </Button>
+                                <Button Click="clSettingsDirection" Background="{x:Null}" Foreground="Gray" Width="35" Padding="-5" BorderBrush="{x:Null}">
+                                    <mat:PackIcon Kind="Settings" Width="25" Height="25"/>
+                                </Button>
+                                <Button Click="clDeleteDirection" Background="{x:Null}" Foreground="Red" Width="35" Padding="-5" BorderBrush="{x:Null}">
+                                    <mat:PackIcon Kind="Delete" Width="25" Height="25"/>
+                                </Button>
+                            </StackPanel>
+                        </Grid>
                         <StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
                             <Border CornerRadius="10" BorderThickness="2">
                                 <Button Content="Время" Width="100" Background="OrangeRed" BorderBrush="OrangeRed"/>
                             </Border>
-                            <ListView ItemsSource="{Binding DayWeeks}">
+                            <ListView ItemContainerStyle="{StaticResource ListViewItemContainerStyle1}" ItemsSource="{Binding DayWeeks}">
                                 <ListView.ItemTemplate>
                                     <DataTemplate>
                                         <Button Content="{Binding name}" Width="150" Background="DarkBlue" Foreground="White"></Button>
@@ -44,21 +88,62 @@
                                 </ListView.ItemsPanel>
                             </ListView>
                         </StackPanel>
-                        <ListView ItemsSource="{Binding Times}" HorizontalAlignment="Center">
+                        <ListView  ItemContainerStyle="{StaticResource ListViewItemContainerStyle1}" ItemsSource="{Binding Times}" HorizontalAlignment="Center">
                             <ListView.ItemTemplate>
                                 <DataTemplate>
-                                    <StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
+                                    <StackPanel  Orientation="Horizontal" HorizontalAlignment="Center">
                                         <Button BorderBrush="DeepSkyBlue" FontSize="22" Background="DeepSkyBlue" Width="100" Height="60" Content="{Binding getTime}">
+                                            <Button.ContextMenu>
+                                                <ContextMenu>
+                                                    <MenuItem Click="clEditTime" Header="Изменить" Icon="{mat:PackIcon Kind=Edit}"/>
+                                                    <MenuItem Click="clDeleteTime" Header="Удалить" Icon="{mat:PackIcon Kind=Delete}"/>
+                                                </ContextMenu>
+                                            </Button.ContextMenu>
                                         </Button>
-                                        <ListView ItemsSource="{Binding GetLessonsSorted}">
+                                        <ListView ItemsSource="{Binding GetLessonsSorted}" ItemContainerStyle="{StaticResource ListViewItemContainerStyle1}">
                                             <ListView.ItemTemplate>
                                                 <DataTemplate>
-                                                    <Button Background="WhiteSmoke" Width="150" Height="60" BorderBrush="WhiteSmoke">
-                                                        <TextBlock Foreground="Black" TextAlignment="Center">
-                                                        <Run Text="{Binding groupName}"/>
-                                                            <LineBreak/>
-                                                        <Run Text="{Binding teacherName}"/>
+                                                    <Button Background="WhiteSmoke"  Width="150" Height="60" BorderBrush="WhiteSmoke">
+                                                        <TextBlock Style="{StaticResource MaterialDesignBody1TextBlock}" Foreground="Black" Text="{Binding getGroupTeacherCell}" TextAlignment="Center">
                                                         </TextBlock>
+                                                        <Button.ContextMenu>
+                                                            <ContextMenu>
+                                                                <MenuItem Click="clAddLesson" Header="Добавить" Icon="{mat:PackIcon Kind=Add}">
+                                                                    <MenuItem.Style>
+                                                                        <Style TargetType="{x:Type MenuItem}" BasedOn="{StaticResource MaterialDesignMenuItem}">
+                                                                            <Setter Property="Visibility" Value="Collapsed"/>
+                                                                            <Style.Triggers>
+                                                                                <DataTrigger Binding="{Binding getGroupTeacherCell}" Value="">
+                                                                                    <Setter Property="Visibility" Value="Visible"/>
+                                                                                </DataTrigger>
+                                                                            </Style.Triggers>
+                                                                        </Style>
+                                                                    </MenuItem.Style>
+                                                                </MenuItem>
+                                                                <MenuItem Click="clEditLesson" Header="Изменить" Icon="{mat:PackIcon Kind=Edit}">
+                                                                    <MenuItem.Style>
+                                                                        <Style TargetType="{x:Type MenuItem}" BasedOn="{StaticResource MaterialDesignMenuItem}">
+                                                                            <Style.Triggers>
+                                                                                <DataTrigger Binding="{Binding getGroupTeacherCell}" Value="">
+                                                                                    <Setter Property="Visibility" Value="Collapsed"/>
+                                                                                </DataTrigger>
+                                                                            </Style.Triggers>
+                                                                        </Style>
+                                                                    </MenuItem.Style>
+                                                                </MenuItem>
+                                                                <MenuItem Click="clDeleteLesson" Header="Удалить" Icon="{mat:PackIcon Kind=Delete}">
+                                                                    <MenuItem.Style>
+                                                                        <Style TargetType="{x:Type MenuItem}" BasedOn="{StaticResource MaterialDesignMenuItem}">
+                                                                            <Style.Triggers>
+                                                                                <DataTrigger Binding="{Binding getGroupTeacherCell}" Value="">
+                                                                                    <Setter Property="Visibility" Value="Collapsed"/>
+                                                                                </DataTrigger>
+                                                                            </Style.Triggers>
+                                                                        </Style>
+                                                                    </MenuItem.Style>
+                                                                </MenuItem>
+                                                            </ContextMenu>
+                                                        </Button.ContextMenu>
                                                     </Button>
                                                 </DataTemplate>
                                             </ListView.ItemTemplate>
@@ -72,10 +157,11 @@
                                 </DataTemplate>
                             </ListView.ItemTemplate>
                         </ListView>
-
+                        <Button Background="DeepSkyBlue" HorizontalAlignment="Right" BorderBrush="DeepSkyBlue" Content="Добавить время"/>
                     </StackPanel>
                 </DataTemplate>
             </ListView.ItemTemplate>
         </ListView>
+        <Button Content="Добавить направление" Background="OrangeRed" BorderBrush="OrangeRed" HorizontalAlignment="Right" VerticalAlignment="Bottom" Margin="15" Click="clAddDirection"/>
     </Grid>
 </UserControl>

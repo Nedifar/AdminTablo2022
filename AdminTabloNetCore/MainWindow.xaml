@@ -21,6 +21,37 @@
             <EventSetter Event="CheckBox.Checked" Handler="CheckBox_Checked"/>
             <EventSetter Event="CheckBox.Unchecked" Handler="CheckBox_Checked"/>
         </Style>
+        <Style
+         TargetType="{x:Type ContextMenu}"
+         BasedOn="{StaticResource MaterialDesignMenu}">
+            <Setter Property="Background" Value="{DynamicResource MaterialDesignPaper}" />
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="{x:Type MenuBase}">
+                        <AdornerDecorator CacheMode="{Binding RelativeSource={RelativeSource Self}, Path=(mat:ShadowAssist.CacheMode)}">
+                            <Grid>
+                                <Border Margin="3"
+                      Background="{TemplateBinding Background}"
+                      CornerRadius="2"
+                      Effect="{DynamicResource MaterialDesignShadowDepth1}" />
+
+                                <Border Margin="3" Background="Transparent">
+                                    <ScrollViewer x:Name="SubMenuScrollViewer" Style="{DynamicResource {ComponentResourceKey ResourceId=MenuScrollViewer, TypeInTargetAssembly={x:Type FrameworkElement}}}">
+                                        <Grid Margin="0,16" RenderOptions.ClearTypeHint="Enabled">
+                                            <ItemsPresenter x:Name="ItemsPresenter"
+                                    Grid.IsSharedSizeScope="True"
+                                    KeyboardNavigation.DirectionalNavigation="Cycle"
+                                    KeyboardNavigation.TabNavigation="Cycle"
+                                    SnapsToDevicePixels="{TemplateBinding SnapsToDevicePixels}" />
+                                        </Grid>
+                                    </ScrollViewer>
+                                </Border>
+                            </Grid>
+                        </AdornerDecorator>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
     </Window.Resources>
     <Grid>
         <dragablz:TabablzControl Margin="0,4,0,-4">
