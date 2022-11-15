@@ -49,21 +49,18 @@
         </Style>
     </UserControl.Resources>
     <Grid>
-        <ListView Margin="0 0 0 5" Height="{Binding RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type Window}}, Path=ActualHeight}" ItemContainerStyle="{StaticResource ListViewItemContainerStyle2}" x:Name="lvSheduleAdditionalLessons" >
+        <ListView Margin="0 0 0 45" ScrollViewer.CanContentScroll="False" ItemContainerStyle="{StaticResource ListViewItemContainerStyle2}" x:Name="lvSheduleAdditionalLessons" >
             <ListView.ItemTemplate>
                 <DataTemplate>
                     <StackPanel>
                         <Grid>
-                            <TextBlock TextAlignment="Center" HorizontalAlignment="Center" FontSize="22">
+                            <TextBlock TextAlignment="Center" HorizontalAlignment="Center" FontSize="22" TextWrapping="Wrap" Width="500">
                             <Run Text="Расписание направления"/>
                             <LineBreak/>
                             <Run FontWeight="Bold" Text="{Binding name, StringFormat= «{0}» }"/>
                             </TextBlock>
                             <StackPanel HorizontalAlignment="Right" Orientation="Horizontal">
-                                <Button Click="clEditDirection" Background="{x:Null}" Foreground="Green" Width="35" Padding="-5" BorderBrush="{x:Null}">
-                                    <mat:PackIcon Kind="Edit" Width="25" Height="25"/>
-                                </Button>
-                                <Button Click="clSettingsDirection" Background="{x:Null}" Foreground="Gray" Width="35" Padding="-5" BorderBrush="{x:Null}">
+                                <Button Click="clEditDirection" Background="{x:Null}" Foreground="Gray" Width="35" Padding="-5" BorderBrush="{x:Null}">
                                     <mat:PackIcon Kind="Settings" Width="25" Height="25"/>
                                 </Button>
                                 <Button Click="clDeleteDirection" Background="{x:Null}" Foreground="Red" Width="35" Padding="-5" BorderBrush="{x:Null}">
@@ -120,7 +117,7 @@
                                                                         </Style>
                                                                     </MenuItem.Style>
                                                                 </MenuItem>
-                                                                <MenuItem Click="clEditLesson" Header="Изменить" Icon="{mat:PackIcon Kind=Edit}">
+                                                                <MenuItem Click="clAddLesson" Header="Изменить" Icon="{mat:PackIcon Kind=Edit}">
                                                                     <MenuItem.Style>
                                                                         <Style TargetType="{x:Type MenuItem}" BasedOn="{StaticResource MaterialDesignMenuItem}">
                                                                             <Style.Triggers>
@@ -157,11 +154,13 @@
                                 </DataTemplate>
                             </ListView.ItemTemplate>
                         </ListView>
-                        <Button Background="DeepSkyBlue" HorizontalAlignment="Right" BorderBrush="DeepSkyBlue" Content="Добавить время"/>
+                        <Button Background="DeepSkyBlue" HorizontalAlignment="Right" BorderBrush="DeepSkyBlue" Click="clAddTime" Content="Добавить время"/>
                     </StackPanel>
                 </DataTemplate>
             </ListView.ItemTemplate>
         </ListView>
-        <Button Content="Добавить направление" Background="OrangeRed" BorderBrush="OrangeRed" HorizontalAlignment="Right" VerticalAlignment="Bottom" Margin="15" Click="clAddDirection"/>
+        <Button Background="{x:Null}" BorderBrush="{x:Null}" Padding="-15" Width="40" Height="40" HorizontalAlignment="Right" VerticalAlignment="Bottom" Margin="25" Click="clAddDirection">
+            <mat:PackIcon Kind="Plus" Foreground="Green" Width="40" Height="40"/>
+        </Button>
     </Grid>
 </UserControl>

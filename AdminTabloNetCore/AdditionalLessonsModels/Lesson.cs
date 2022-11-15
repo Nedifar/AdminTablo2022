@@ -17,6 +17,8 @@ namespace AdminTabloNetCore.AdditionalLessonsModels
 
         public string teacherName { get; set; }
 
+        public string cabinet { get; set; }
+
         [ForeignKey("DayWeek")]
         public int idDayWeek { get; set; }
 
@@ -36,10 +38,15 @@ namespace AdminTabloNetCore.AdditionalLessonsModels
                 {
                     resultString += groupName;
                 }
-                if(teacherName != null)
+                if (cabinet != null)
+                {
+                    resultString += " " +cabinet;
+                }
+                if (teacherName != null)
                 {
                     resultString += "\n" + teacherName;
                 }
+                
                 return resultString;
             }
         }

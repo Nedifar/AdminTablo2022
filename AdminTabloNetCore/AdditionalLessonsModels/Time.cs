@@ -13,7 +13,7 @@ namespace AdminTabloNetCore.AdditionalLessonsModels
         [Key]
         public int idTime { get; set; }
 
-        public DateTime beginTime { get; set; }
+        public DateTime beginTime { get; set; } = DateTime.Now;
 
         public virtual List<Lesson> Lessons { get; set; } = new();
 
