@@ -1,0 +1,51 @@
+﻿<Window x:Class="AdminTabloNetCore.AddForm"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:mat="http://materialdesigninxaml.net/winfx/xaml/themes"
+        xmlns:local="clr-namespace:AdminTabloNetCore"
+        mc:Ignorable="d"
+        Title="Обновление расписания" Height="450" Width="800" WindowStartupLocation="CenterScreen">
+    <Grid>
+        <StackPanel HorizontalAlignment="Center" VerticalAlignment="Center">
+            <TextBlock Text="Объявление" Margin="0 5" HorizontalAlignment="Center" FontSize="24"/>
+            <TextBox TextWrapping="Wrap" AcceptsReturn="True" mat:HintAssist.Hint="Заголовок" Text="{Binding Header}" Style="{StaticResource MaterialDesignFloatingHintTextBox}" Width="250" Cursor="Arrow"/>
+            <TextBox TextWrapping="Wrap" AcceptsReturn="True" mat:HintAssist.Hint="Название" Text="{Binding Name}" Style="{StaticResource MaterialDesignFloatingHintTextBox}" Width="250" Cursor="Arrow"/>
+            <DatePicker Style="{StaticResource MaterialDesignFloatingHintDatePicker}" x:Name="dpDateBegin" mat:HintAssist.Hint="Дата начала" />
+            <mat:TimePicker x:Name="tpDateBegin" mat:HintAssist.Hint="Время начала" Style="{StaticResource MaterialDesignFloatingHintTimePicker}" Is24Hours="True"/>
+            <StackPanel Orientation="Horizontal" x:Name="radios" Margin="0 5">
+                <RadioButton x:Name="rbPeriod" Content="На период времени" IsChecked="True" Margin="5 0"/>
+                <RadioButton x:Name="rbDate" Content="До даты" Margin="5 0"/>
+            </StackPanel>
+            <StackPanel x:Name="spDate">
+                <StackPanel.Style>
+                    <Style TargetType="{x:Type StackPanel}">
+                        <Style.Triggers>
+                            <DataTrigger Binding="{Binding ElementName=rbDate, Path=IsChecked}" Value="false">
+                                <Setter Property="Visibility" Value="Collapsed"/>
+                            </DataTrigger>
+                        </Style.Triggers>
+                    </Style>
+                </StackPanel.Style>
+                <DatePicker x:Name="dpDate" Style="{StaticResource MaterialDesignFloatingHintDatePicker}" mat:HintAssist.Hint="Дата закрытия" Width="250"/>
+                <mat:TimePicker  x:Name="tpTime" Style="{StaticResource MaterialDesignFloatingHintTimePicker}" mat:HintAssist.Hint="Время закрытия" Width="250" Is24Hours="True"/>
+            </StackPanel>
+            <StackPanel x:Name="spPeriod">
+                <StackPanel.Style>
+                    <Style TargetType="{x:Type StackPanel}">
+                        <Style.Triggers>
+                            <DataTrigger Binding="{Binding ElementName=rbPeriod, Path=IsChecked}" Value="false">
+                                <Setter Property="Visibility" Value="Collapsed"/>
+                            </DataTrigger>
+                        </Style.Triggers>
+                    </Style>
+                </StackPanel.Style>
+                <TextBox x:Name="tbPeriod" Style="{StaticResource MaterialDesignFloatingHintTextBox}" mat:HintAssist.Hint="Срок в часах" Width="250"/>
+            </StackPanel>
+            <ComboBox mat:HintAssist.Hint="Приоритет" Style="{StaticResource MaterialDesignFloatingHintComboBox}" x:Name="cbPriority" Width="250"/>
+            <CheckBox Content="Перенести в топ" Width="250" x:Name="cbToTop" Visibility="Collapsed"/>
+            <Button Content="Сохранить" Margin="0 10" Click="clSave"/>
+        </StackPanel>
+    </Grid>
+</Window>

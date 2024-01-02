@@ -1,0 +1,27 @@
+﻿<Window x:Class="AdminTabloNetCore.Models.AddAdminsToShedule"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:AdminTabloNetCore.Models"
+        xmlns:mat="http://materialdesigninxaml.net/winfx/xaml/themes"
+        mc:Ignorable="d"
+        Title="Окно добавления администратора к графику дежурств" WindowStartupLocation="CenterScreen" Height="200" Width="380">
+    <Grid>
+        <StackPanel Margin="10 23">
+            <ComboBox x:Name="cbAdmins" Margin="0 10" mat:HintAssist.Hint="Администратор" Style="{StaticResource MaterialDesignFloatingHintComboBox}" DisplayMemberPath="NameSupervisor"/>
+            <Button Content="Добавить" Click="clAdd">
+                <Button.Style>
+                    <Style TargetType="Button" BasedOn="{StaticResource MaterialDesignFlatDarkBgButton}">
+                        <Style.Triggers>
+                            <DataTrigger Binding="{Binding ElementName=cbAdmins, Path=SelectedIndex}" Value="-1">
+                                <Setter Property="IsEnabled" Value="False"/>
+                            </DataTrigger>
+                        </Style.Triggers>
+                    </Style>
+                </Button.Style>
+            </Button>
+            <Button Content="Нет в списке?" Click="clNoneList" Background="{x:Null}" BorderBrush="{x:Null}" Foreground="Black" FontSize="10" Height="20" Padding="-10"/>
+        </StackPanel>
+    </Grid>
+</Window>

@@ -1,0 +1,34 @@
+﻿<Window x:Class="AdminTabloNetCore.Pages.AuthForm"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:AdminTabloNetCore.Pages"
+        xmlns:mat="http://materialdesigninxaml.net/winfx/xaml/themes"
+        mc:Ignorable="d"
+        Title="Аутентификация" Height="450" Width="800">
+    <Grid>
+        <StackPanel VerticalAlignment="Center" HorizontalAlignment="Center">
+            <TextBlock Text="Аутентификация" TextAlignment="Center" FontSize="24" Margin="0 0 0 20"/>
+            <StackPanel x:Name="spPasNoVisible" Orientation="Horizontal" HorizontalAlignment="Right" Margin="0 3">
+                <TextBlock Text="Пароль доступа" Margin="5 0"/>
+                <PasswordBox x:Name="pbPas" Width="120" PasswordChanged="pbPas_PasswordChanged" />
+                <Button Width="18" Margin="5 0 0 0" Background="{x:Null}" Padding="-5" BorderBrush="{x:Null}" Height="18" Click="clVisibleCollapsePassword">
+                    <mat:PackIcon Kind="Eye" Width="15" Height="15" Foreground="#FF673AB7">
+                    </mat:PackIcon>
+                </Button>
+            </StackPanel>
+            <StackPanel x:Name="spPasVisible" Visibility="Collapsed" Orientation="Horizontal" HorizontalAlignment="Right" Margin="0 3">
+                <TextBlock Text="Пароль доступа" Margin="5 0"/>
+                <TextBox x:Name="tbPas" Width="120" />
+                <Button Width="18" Margin="5 0 0 0" Height="18" Click="clVisibleCollapsePassword" Padding="-5" Background="{x:Null}" BorderBrush="{x:Null}">
+                    <mat:PackIcon Kind="EyeCheckOutline" Width="15" Height="15" Foreground="#FF673AB7">
+                    </mat:PackIcon>
+                </Button>
+            </StackPanel>
+            <Button Content="Вход" Click="clSign" Margin="0 5">
+                
+            </Button>
+        </StackPanel>
+    </Grid>
+</Window>

@@ -1,0 +1,236 @@
+﻿<Window x:Class="AdminTabloNetCore.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:mat="http://materialdesigninxaml.net/winfx/xaml/themes"
+        xmlns:dragablz="http://dragablz.net/winfx/xaml/dragablz"
+        xmlns:local="clr-namespace:AdminTabloNetCore"
+        xmlns:dd="urn:gong-wpf-dragdrop"
+        mc:Ignorable="d"
+        Title="Окно администратора" Height="660" Width="1400">
+    <Window.Resources>
+        <Style TargetType="{x:Type DataGridRow}" BasedOn="{StaticResource MaterialDesignDataGridRow}">
+            <Style.Triggers>
+                <DataTrigger Binding="{Binding running}" Value="false">
+                    <Setter Property="Background" Value="#FFF1EFEF"/>
+                </DataTrigger>
+            </Style.Triggers>
+        </Style>
+        <Style x:Key="kk" TargetType="{x:Type DataGridCell}" BasedOn="{StaticResource MaterialDesignDataGridCell}">
+            <EventSetter Event="CheckBox.Checked" Handler="CheckBox_Checked"/>
+            <EventSetter Event="CheckBox.Unchecked" Handler="CheckBox_Checked"/>
+        </Style>
+        <Style
+         TargetType="{x:Type ContextMenu}"
+         BasedOn="{StaticResource MaterialDesignMenu}">
+            <Setter Property="Background" Value="{DynamicResource MaterialDesignPaper}" />
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="{x:Type MenuBase}">
+                        <AdornerDecorator CacheMode="{Binding RelativeSource={RelativeSource Self}, Path=(mat:ShadowAssist.CacheMode)}">
+                            <Grid>
+                                <Border Margin="3"
+                      Background="{TemplateBinding Background}"
+                      CornerRadius="2"
+                      Effect="{DynamicResource MaterialDesignShadowDepth1}" />
+
+                                <Border Margin="3" Background="Transparent">
+                                    <ScrollViewer x:Name="SubMenuScrollViewer" Style="{DynamicResource {ComponentResourceKey ResourceId=MenuScrollViewer, TypeInTargetAssembly={x:Type FrameworkElement}}}">
+                                        <Grid Margin="0,16" RenderOptions.ClearTypeHint="Enabled">
+                                            <ItemsPresenter x:Name="ItemsPresenter"
+                                    Grid.IsSharedSizeScope="True"
+                                    KeyboardNavigation.DirectionalNavigation="Cycle"
+                                    KeyboardNavigation.TabNavigation="Cycle"
+                                    SnapsToDevicePixels="{TemplateBinding SnapsToDevicePixels}" />
+                                        </Grid>
+                                    </ScrollViewer>
+                                </Border>
+                            </Grid>
+                        </AdornerDecorator>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+    </Window.Resources>
+    <mat:DialogHost DialogTheme="Inherit" Identifier="RootDialog">
+        <Grid>
+            <dragablz:TabablzControl Margin="0,4,0,-4">
+                <dragablz:TabablzControl.InterTabController>
+                    <dragablz:InterTabController/>
+                </dragablz:TabablzControl.InterTabController>
+                <TabItem Header="Расписание звонков">
+                    <Grid Margin="5">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition/>
+                            <ColumnDefinition Width="150"/>
+                        </Grid.ColumnDefinitions>
+                        <Viewbox Grid.Column="1" Width="150" VerticalAlignment="Top" HorizontalAlignment="Right">
+                            <StackPanel>
+                                <ComboBox x:Name="cbShedule" SelectionChanged="cbShedule_SelectionChanged" SelectedIndex="0" HorizontalAlignment="Right" Width="120" VerticalAlignment="Top" Style="{StaticResource MaterialDesignFloatingHintComboBox}" mat:HintAssist.Hint="Вид"/>
+                                <ComboBox x:Name="cbCHKR" HorizontalAlignment="Right" Width="120" VerticalAlignment="Top" Style="{StaticResource MaterialDesignFloatingHintComboBox}" mat:HintAssist.Hint="День ЧКР" SelectionChanged="cbCHKR_SelectionChanged">
+                                    <ComboBox.ToolTip>
+                                        <TextBlock Text="День недели, в котором по умолчанию проводиться ЧКР"/>
+                                    </ComboBox.ToolTip>
+                                </ComboBox>
+                                <ListView dd:DragDrop.UseDefaultDragAdorner="True" dd:DragDrop.DropHandler="{x:Static local:DragDropListView.Instance}" x:Name="lvTypes" dd:DragDrop.IsDragSource="True">
+                                    <ListView.ItemTemplate>
+                                        <DataTemplate>
+                                            <Button Content="{Binding TypeInterval.name}" Width="130"/>
+                                        </DataTemplate>
+                                    </ListView.ItemTemplate>
+                                </ListView>
+                            </StackPanel>
+                        </Viewbox>
+                        <Grid x:Name="gridConstructor" Grid.Column="0" Margin="5 5 10 70">
+                            <StackPanel Height="{Binding ElementName=gridConstructor, Path=ActualHeight}" VerticalAlignment="Top" Width="{Binding ElementName=gridConstructor, Path=ActualWidth}" HorizontalAlignment="Left">
+                                <DatePicker Name="dpPicker" Visibility="Collapsed" HorizontalAlignment="Left" Margin="15 5" Style="{StaticResource MaterialDesignFloatingHintDatePicker}" mat:HintAssist.Hint="Дата особого расписания" SelectedDateChanged="dpPicker_SelectedDateChanged" Width="180"/>
+                                <ListView dd:DragDrop.UseDefaultDragAdorner="True" dd:DragDrop.DropHandler="{x:Static local:DragDropListView.Instance}" dd:DragDrop.IsDropTarget="True" dd:DragDrop.IsDragSource="True" HorizontalAlignment="Left" Height="{Binding ElementName=gridConstructor, Path=ActualHeight}" Background="Black" Width="520" x:Name="lvMainSheduleTime">
+                                    <ListView.ItemTemplate>
+                                        <DataTemplate>
+                                            <Grid Width="480">
+                                                <StackPanel Orientation="Horizontal" >
+                                                    <TextBox Style="{StaticResource MaterialDesignFloatingHintTextBox}" Margin="0 0 10 0" mat:HintAssist.Hint="Подсказка" Text="{Binding Name}" Width="140"/>
+                                                    <mat:TimePicker SelectedTime="{Binding begin}" Style="{StaticResource MaterialDesignFloatingHintTimePicker}" Is24Hours="True" mat:HintAssist.Hint="Начало" Width="70"/>
+                                                    <mat:TimePicker SelectedTime="{Binding end}" Style="{StaticResource MaterialDesignFloatingHintTimePicker}" Is24Hours="True" Margin="15 0" mat:HintAssist.Hint="Конец" Width="70"/>
+                                                    <Button Content="{Binding TypeInterval.name}" Width="120"/>
+                                                </StackPanel>
+                                                <Button Click="clDeletePara" HorizontalAlignment="Right" Background="{x:Null}" BorderBrush="{x:Null}" Foreground="DarkRed">
+                                                    <Button.Content>
+                                                        <mat:PackIcon Kind="Delete"/>
+                                                    </Button.Content>
+                                                </Button>
+                                            </Grid>
+                                        </DataTemplate>
+                                    </ListView.ItemTemplate>
+                                    <ListView.ItemsPanel>
+                                        <ItemsPanelTemplate>
+                                            <StackPanel></StackPanel>
+                                        </ItemsPanelTemplate>
+                                    </ListView.ItemsPanel>
+                                </ListView>
+                            </StackPanel>
+                        </Grid>
+                        <Button Content="Сохранить" Click="clSave" VerticalAlignment="Bottom" HorizontalAlignment="Center" Margin="25"/>
+                    </Grid>
+                </TabItem>
+                <TabItem Header="Дежурные администраторы">
+                    <Grid>
+                        <DataGrid x:Name="dgAdmins" Margin="5 5 5 65" AutoGenerateColumns="False" IsReadOnly="True">
+                            <DataGrid.Columns>
+                                <DataGridTextColumn Header="Имя" Binding="{Binding NameSupervisor}"/>
+                                <DataGridTextColumn Header="Должность" Binding="{Binding position}"/>
+                                <DataGridTemplateColumn>
+                                    <DataGridTemplateColumn.CellTemplate>
+                                        <DataTemplate>
+                                            <Button Content="Редактировать" Click="clEditAdmin"/>
+                                        </DataTemplate>
+                                    </DataGridTemplateColumn.CellTemplate>
+                                </DataGridTemplateColumn>
+                            </DataGrid.Columns>
+                        </DataGrid>
+                        <Button Content="Удалить" HorizontalAlignment="Right" VerticalAlignment="Bottom" Click="clDeleteAdmin" Margin="5"/>
+                        <Button Content="Добавить" HorizontalAlignment="Left" Click="clAddAdmins" VerticalAlignment="Bottom" Margin="5"/>
+                    </Grid>
+                </TabItem>
+                <TabItem Header="Объявления">
+                    <Grid>
+                        <DataGrid x:Name="dgAcc" Margin="0 0 0 50" IsReadOnly="True" AutoGenerateColumns="False">
+                            <DataGrid.Columns>
+                                <DataGridTextColumn Header="Дата добавления" Binding="{Binding dateAdded, StringFormat={}{0:dd.MM.yyyy HH.mm}}"/>
+                                <DataGridTextColumn Header="Заголовок" Binding="{Binding Header}"/>
+                                <DataGridTextColumn Width="780" Header="Название" Binding="{Binding Name}"/>
+                                <DataGridTextColumn Header="Дата закрытия" Binding="{Binding date}">
+                                </DataGridTextColumn>
+                                <DataGridTextColumn Header="Приоритетность" Binding="{Binding getPriority}"/>
+                                <DataGridTemplateColumn Header="Активна">
+                                    <DataGridTemplateColumn.CellTemplate>
+                                        <DataTemplate>
+                                            <CheckBox IsChecked="{Binding isActive}" Checked="checkActive" Unchecked="checkActive"/>
+                                        </DataTemplate>
+                                    </DataGridTemplateColumn.CellTemplate>
+                                </DataGridTemplateColumn>
+                                <DataGridTemplateColumn>
+                                    <DataGridTemplateColumn.CellTemplate>
+                                        <DataTemplate>
+                                            <Button Content="Редактировать" Click="clEdit"/>
+                                        </DataTemplate>
+                                    </DataGridTemplateColumn.CellTemplate>
+                                </DataGridTemplateColumn>
+                            </DataGrid.Columns>
+                        </DataGrid>
+                        <Button Content="Добавить" Click="clAdd" VerticalAlignment="Bottom" HorizontalAlignment="Center" Margin="0 10"/>
+                        <Button Content="Удалить" Click="clDeleteAnnounc"  VerticalAlignment="Bottom" HorizontalAlignment="Right" Margin="10"/>
+                    </Grid>
+                </TabItem>
+                <TabItem Header="График дежурных администраторов">
+                    <Grid>
+                        <StackPanel HorizontalAlignment="Right">
+                            <ComboBox x:Name="cbMonths" VerticalAlignment="Top" HorizontalAlignment="Right" SelectionChanged="chang" Width="140" mat:HintAssist.Hint="Месяц"/>
+                            <ComboBox x:Name="cbYear" VerticalAlignment="Top" HorizontalAlignment="Right" SelectionChanged="chang" Width="140" mat:HintAssist.Hint="Год"/>
+                        </StackPanel>
+                        <DataGrid x:Name="dg" FrozenColumnCount="2" Margin="0 0 185 50" CanUserAddRows="False" RowEditEnding="df" AutoGenerateColumns="False" >
+                            <DataGrid.Columns>
+                            </DataGrid.Columns>
+                        </DataGrid>
+                        <Button Content="Сохранить" Click="save" Margin="5" VerticalAlignment="Bottom" Width="120" />
+                        <Button Click="clAddAdmin" Width="30" Height="30" Background="{x:Null}" BorderBrush="{x:Null}" Padding="-30" VerticalAlignment="Top" HorizontalAlignment="Right" Margin="145 5">
+                            <mat:PackIcon Width="30" Height="30" Kind="Add" Foreground="LightGreen" />
+                        </Button>
+                    </Grid>
+                </TabItem>
+                <TabItem Header="Промежутки дня">
+                    <Grid>
+                        <ListView x:Name="lvNamesHeader">
+                            <ListView.ItemTemplate>
+                                <DataTemplate>
+                                    <Grid>
+                                        <StackPanel Orientation="Horizontal">
+                                            <StackPanel>
+                                                <TextBlock Text="Начало" Margin="0 10"></TextBlock>
+                                                <mat:TimePicker Is24Hours="True" SelectedTime="{Binding beginTime}" Width="140"/>
+                                            </StackPanel>
+                                            <StackPanel Margin="10 0">
+                                                <TextBlock Text="Конец" Margin="0 10"></TextBlock>
+                                                <mat:TimePicker Is24Hours="True" SelectedTime="{Binding endTime}" Width="140"/>
+                                            </StackPanel>
+                                            <StackPanel>
+                                                <TextBlock Text="Заголовок" Margin="0 10"></TextBlock>
+                                                <TextBox Text="{Binding Header}" Width="140"/>
+                                            </StackPanel>
+                                            <Button Click="clDeleteHeaderPartDat" Background="{x:Null}" BorderBrush="{x:Null}" Foreground="DarkRed">
+                                                <Button.Content>
+                                                    <mat:PackIcon Kind="Delete"/>
+                                                </Button.Content>
+                                                <Button.Style>
+                                                    <Style TargetType="Button" BasedOn="{StaticResource MaterialDesignFlatDarkBgButton}">
+                                                        <Style.Triggers>
+                                                            <DataTrigger Binding="{Binding DayPartHeaderId}" Value="0">
+                                                                <Setter Property="Opacity" Value="0"/>
+                                                            </DataTrigger>
+                                                        </Style.Triggers>
+                                                    </Style>
+                                                </Button.Style>
+                                            </Button>
+                                        </StackPanel>
+                                    </Grid>
+                                </DataTemplate>
+                            </ListView.ItemTemplate>
+                        </ListView>
+                        <Button Content="Сохранить" Click="clSaveDayPartHeaders" VerticalAlignment="Bottom" HorizontalAlignment="Center" Margin="0 10"/>
+                    </Grid>
+                </TabItem>
+                <TabItem Header="ДОПы">
+                    <Grid x:Name="gridAdditionalLessons">
+
+                    </Grid>
+                </TabItem>
+                <TabItem Header="Скринсейвер">
+                    <Grid x:Name="gridScreenSaver">
+
+                    </Grid>
+                </TabItem>
+            </dragablz:TabablzControl>
+        </Grid>
+    </mat:DialogHost>
+</Window>
